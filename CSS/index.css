@@ -1,6 +1,8 @@
 .app {
+    margin: 0;
+    padding: 0;
     background: rgba(0,0,0,0.1);
-    width: 90%;
+    width: 70%;
     margin: 80px auto 0;
 }
 header {
@@ -22,6 +24,14 @@ aside {
     align-items: center;
     background-color: red;
     background: rgba(0,0,0,0.2);
+}
+button {
+    background-color: midnightblue;
+    color: white;
+    box-shadow: none;
+    border: none;
+    min-width: 64px;
+    min-height: 28px;
 }
 h2 {
     margin-top: 24px;

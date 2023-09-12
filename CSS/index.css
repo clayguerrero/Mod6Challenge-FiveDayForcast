@@ -38,6 +38,11 @@ form {
     justify-content: center;
     align-items: center;
 }
+#citySearcher {
+  display: flex;
+  width: 70%;
+  max-width: 185px;
+}
 .search {
   background-color: midnightblue;
   color: white;
@@ -112,7 +117,7 @@ h3 {
 }
 .card {
   min-height: 300px;
-  min-width: 180px;
-  max-width: 20%;
+  min-width: 20%;
+  max-width: 180px;
   background: rgba(0, 0, 0, 0.2);
 }

@@ -59,6 +59,12 @@ form {
   height: 100%;
   padding-left: 0;
 }
+li {
+  display: flex;
+  list-style: none;
+  width: 100%;
+  justify-content: center;
+}
 .historyItem {
   display: flex;
   justify-content: center;

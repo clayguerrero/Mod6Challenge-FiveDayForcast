@@ -15,21 +15,28 @@ $(function addToCityList() {
   const cityHistory = JSON.parse(localStorage.getItem("prevCity"));
   if (cityHistory) {
     dummyCity = cityHistory;
+    // console.log(dummyCity);
   }
   searchBtn.on("click", function (e) {
     e.preventDefault();
     const newCityName = $(this).siblings("input").val();
-    dummyCity.push(newCityName);
+    dummyCity.unshift(newCityName);
     localStorage.setItem("prevCity", JSON.stringify(dummyCity));
-    location.reload()
+    location.reload();
   });
   if (localStorage.prevCity) {
     const prevCityList = JSON.parse(localStorage.prevCity);
     prevCityList.forEach((city) => {
       history.append("<li><button class='historyItem'><h4></h4></button></li>");
       history.children().last().children().children().text(city);
-      count++;
+      if (history.children().length > 10) {
+        history.children().children().last().remove()
+      }
     });
+    console.log(prevCityList)
   }
+
+  // console.log(history.children().length > 10);
+
   // localStorage.clear()
 });

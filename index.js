@@ -1,21 +1,23 @@
 const searchBtn = $(".search");
 const history = $(".history");
 const historyItem = $(".historyItem");
-let count = 0;
 let cityName;
 let currCity;
+let count
 
 // const citySearch = $(".citySearcher");
 
 // searchBtn.css("background-color", "red");
 
 let dummyCity = [];
+const getWeather = function () {
+  let apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + LAT + '&lon='+ LON + '&appid=' + APIKEY +  ''
+}
 
 $(function addToCityList() {
   const cityHistory = JSON.parse(localStorage.getItem("prevCity"));
   if (cityHistory) {
     dummyCity = cityHistory;
-    // console.log(dummyCity);
   }
   searchBtn.on("click", function (e) {
     e.preventDefault();
@@ -24,7 +26,11 @@ $(function addToCityList() {
     localStorage.setItem("prevCity", JSON.stringify(dummyCity));
     location.reload();
   });
-  if (localStorage.prevCity) {
+  lastTen()
+  // localStorage.clear()
+});
+function lastTen() {
+ if (localStorage.prevCity) {
     const prevCityList = JSON.parse(localStorage.prevCity);
     prevCityList.forEach((city) => {
       history.append("<li><button class='historyItem'><h4></h4></button></li>");
@@ -35,8 +41,4 @@ $(function addToCityList() {
     });
     console.log(prevCityList)
   }
-
-  // console.log(history.children().length > 10);
-
-  // localStorage.clear()
-});
+}

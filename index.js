@@ -1,34 +1,27 @@
 const searchBtn = $(".search");
 const history = $(".history");
 const historyItem = $(".historyItem");
-let cityName;
-let currCity;
-let count;
-
 const apikey = 'c7edca2b5da386146c92e6e9f3694e5f';
-const dlat = '29.7633'
-const dlon = '-95.3633'
+let zip
+let countryCode
+// const dlat = '29.7633'
+// const dlon = '-95.3633'
 // const citySearch = $(".citySearcher");
 
 // searchBtn.css("background-color", "red");
 
 let dummyCity = [];
-let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${dlat}&lon=${dlon}&appid=${apikey}&units=imperial`;
+// let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apikey}&units=imperial`;
+const coordByZip = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip},${countryCode}&appid=${apikey}`;
 // const houUrl = `api.openweathermap.org/data/2.5/forecast?q=Houston&appid=${apikey}`
 
-// $.ajax({
-//   url: apiUrl,
-//   method: 'GET'
-// }).then(function (res) {
-//   console.log(res.list[0].main)
-// })
-
-fetch(apiUrl)
-  .then(function (res) {
-    return res.json()}
-).then(function (data) {
-      console.log(data)
-    })
+// fetch(apiUrl)
+//   .then(function (res) {
+//     return res.json()}
+// ).then(function (data) {
+//       console.log(data.city.name)
+//       console.log(data.list[0].main.temp)
+//     })
 
 $(function addToCityList() {
   const cityHistory = JSON.parse(localStorage.getItem("prevCity"));
@@ -42,8 +35,9 @@ $(function addToCityList() {
     localStorage.setItem("prevCity", JSON.stringify(dummyCity));
     location.reload();
   });
+
   lastTen();
-  // localStorage.clear()
+  localStorage.clear()
 });
 function lastTen() {
   if (localStorage.prevCity) {
@@ -55,6 +49,7 @@ function lastTen() {
         history.children().children().last().remove();
       }
     });
-    console.log(prevCityList);
+    let dev = localStorage.prevCity.slice(2).slice(0,-2).split(',')
+    // console.log(dev);
   }
 }

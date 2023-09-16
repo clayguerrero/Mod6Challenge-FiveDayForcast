@@ -11,6 +11,18 @@ let countryCode;
 
 let dummyCity = [];
 
+function byName(cityName,stateCode,countryCode) {
+  const nameURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${apikey}`
+  fetch(nameURL).then(function (res) {
+    return res.json()
+  }).then(function (data) {
+    console.log(data[0])
+    lat = data[0].lat
+    lon = data[0].lon
+    getUrl(lat,lon)
+  })
+}
+
 function getUrl(lat, lon, key) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apikey}&units=imperial`;
   fetch(apiUrl)
@@ -23,18 +35,18 @@ function getUrl(lat, lon, key) {
     });
 }
 
-function coordByZip(zip, countryCode, key) {
-  const findCord = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip},${countryCode}&appid=${apikey}`;
-  fetch(findCord)
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      lat = data.lat;
-      lon = data.lon;
-      getUrl(lat, lon, key);
-    });
-}
+// function coordByZip(zip, countryCode, key) {
+//   const findCord = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip},${countryCode}&appid=${apikey}`;
+//   fetch(findCord)
+//     .then(function (res) {
+//       return res.json();
+//     })
+//     .then(function (data) {
+//       lat = data.lat;
+//       lon = data.lon;
+//       getUrl(lat, lon, key);
+//     });
+// }
 
 $(function addToCityList() {
   const cityHistory = JSON.parse(localStorage.getItem("prevCity"));
@@ -50,9 +62,14 @@ $(function addToCityList() {
   });
 
   lastTen();
-  zip = $(dummyCity).first()[0].split(",")[0];
-  countryCode = $(dummyCity).first()[0].split(",")[1];
-  coordByZip(zip, countryCode, apikey);
+  // zip = $(dummyCity).first()[0].split(",")[0];
+  // countryCode = $(dummyCity).first()[0].split(",")[1];
+  // coordByZip(zip, countryCode, apikey);
+
+  const cityName = $(dummyCity).first()[0].split(",")[0];
+  const stateCode = $(dummyCity).first()[0].split(",")[1];
+  const countryCode = $(dummyCity).first()[0].split(",")[2];
+  byName(cityName, stateCode, countryCode);
   // localStorage.clear()
 });
 function lastTen() {

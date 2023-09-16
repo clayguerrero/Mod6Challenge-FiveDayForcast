@@ -94,6 +94,12 @@ main {
   margin-top: 24px;
   margin-bottom: 24px;
 }
+.hero {
+  display: flex;
+  width: 100%;
+
+  /* background-color: white; */
+}
 .forcast {
   display: flex;
   flex-direction: column;

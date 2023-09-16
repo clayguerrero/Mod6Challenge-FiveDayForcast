@@ -1,8 +1,11 @@
 const searchBtn = $(".search");
 const history = $(".history");
 const historyItem = $(".historyItem");
+const currentCity = $(".currentCity");
+let hero;
+let currCity
 const apikey = "c7edca2b5da386146c92e6e9f3694e5f";
-let zip;
+// let zip;
 let countryCode;
 
 // const citySearch = $(".citySearcher");
@@ -11,16 +14,19 @@ let countryCode;
 
 let dummyCity = [];
 
-function byName(cityName,stateCode,countryCode) {
-  const nameURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${apikey}`
-  fetch(nameURL).then(function (res) {
-    return res.json()
-  }).then(function (data) {
-    console.log(data[0])
-    lat = data[0].lat
-    lon = data[0].lon
-    getUrl(lat,lon)
-  })
+function byName(cityName, stateCode, countryCode) {
+  const nameURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${apikey}`;
+  fetch(nameURL)
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      console.log(data[0]);
+      lat = data[0].lat;
+      lon = data[0].lon;
+      getUrl(lat, lon);
+      addToMainDiv(data[0]);
+    });
 }
 
 function getUrl(lat, lon, key) {
@@ -62,9 +68,6 @@ $(function addToCityList() {
   });
 
   lastTen();
-  // zip = $(dummyCity).first()[0].split(",")[0];
-  // countryCode = $(dummyCity).first()[0].split(",")[1];
-  // coordByZip(zip, countryCode, apikey);
 
   const cityName = $(dummyCity).first()[0].split(",")[0];
   const stateCode = $(dummyCity).first()[0].split(",")[1];
@@ -84,3 +87,12 @@ function lastTen() {
     });
   }
 }
+
+function addToMainDiv(data) {
+  currentCity.append($("<div class='hero rounded'></div>"));
+  hero = currentCity.children();
+  hero.append("<h3 class='currCityName'></h3>")
+  currCity = $(".currCityName");
+  console.log(currCity)
+  currCity.text(data.name)
+};

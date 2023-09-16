@@ -97,8 +97,13 @@ main {
 .hero {
   display: flex;
   width: 100%;
-
   /* background-color: white; */
+}
+.currCityName {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  /* background-color: red; */
 }
 .forcast {
   display: flex;

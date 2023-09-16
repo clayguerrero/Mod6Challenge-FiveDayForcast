@@ -3,7 +3,9 @@ const history = $(".history");
 const historyItem = $(".historyItem");
 const currentCity = $(".currentCity");
 let hero;
-let currCity
+let currCity;
+let namedCity
+// let dt_txt = null
 const apikey = "c7edca2b5da386146c92e6e9f3694e5f";
 // let zip;
 let countryCode;
@@ -22,11 +24,11 @@ function byName(cityName, stateCode, countryCode) {
     })
     .then(function (data) {
       console.log(data[0]);
-      lat = data[0].lat;
-      lon = data[0].lon;
+      namedCity = data[0].name
+      const lat = data[0].lat;
+      const lon = data[0].lon;
       getUrl(lat, lon);
-      addToMainDiv(data[0]);
-    });
+    })
 }
 
 function getUrl(lat, lon, key) {
@@ -36,8 +38,11 @@ function getUrl(lat, lon, key) {
       return res.json();
     })
     .then(function (data) {
-      console.log(data.city.name);
-      console.log(data.list[0].main.temp);
+      // console.log(data.city.name);
+      // console.log(data.list[0].main.temp);
+      console.log(data.list[0]);
+      dt_txt = data.list[0].dt_txt.slice(0,10)
+      addToMainDiv(data.list);
     });
 }
 
@@ -91,8 +96,7 @@ function lastTen() {
 function addToMainDiv(data) {
   currentCity.append($("<div class='hero rounded'></div>"));
   hero = currentCity.children();
-  hero.append("<h3 class='currCityName'></h3>")
+  hero.append("<h3 class='currCityName'></h3> ");
   currCity = $(".currCityName");
-  console.log(currCity)
-  currCity.text(data.name)
-};
+  currCity.text( `${namedCity} ${dt_txt}`);
+}

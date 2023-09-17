@@ -4,7 +4,8 @@ const historyItem = $(".historyItem");
 const currentCity = $(".currentCity");
 let hero;
 let currCity;
-let namedCity
+let namedCity;
+let info;
 // let dt_txt = null
 const apikey = "c7edca2b5da386146c92e6e9f3694e5f";
 // let zip;
@@ -24,11 +25,11 @@ function byName(cityName, stateCode, countryCode) {
     })
     .then(function (data) {
       console.log(data[0]);
-      namedCity = data[0].name
+      namedCity = data[0].name;
       const lat = data[0].lat;
       const lon = data[0].lon;
       getUrl(lat, lon);
-    })
+    });
 }
 
 function getUrl(lat, lon, key) {
@@ -41,7 +42,7 @@ function getUrl(lat, lon, key) {
       // console.log(data.city.name);
       // console.log(data.list[0].main.temp);
       console.log(data.list[0]);
-      dt_txt = data.list[0].dt_txt.slice(0,10)
+      dt_txt = data.list[0].dt_txt.slice(0, 10);
       addToMainDiv(data.list);
     });
 }
@@ -96,7 +97,15 @@ function lastTen() {
 function addToMainDiv(data) {
   currentCity.append($("<div class='hero rounded'></div>"));
   hero = currentCity.children();
-  hero.append("<h3 class='currCityName'></h3> ");
+  hero.append(`<h3 class='currCityName'>${namedCity} ${dt_txt}</h3>`);
+  hero.append(`<div class='infoCont'><ul class='info'></ul></div>`);
   currCity = $(".currCityName");
-  currCity.text( `${namedCity} ${dt_txt}`);
+  info = $(".info");
+  const temp = data[0].main.temp;
+  const windSpd = data[0].wind.speed;
+  const humid = data[0].main.humidity;
+  info.append(`<li class='temp'>Temperture: ${temp}</li>`);
+  info.append(`<li class='wind'>Wind: ${windSpd}MPH</li>`);
+  info.append(`<li class='humid'>Humidity: ${humid}%</li>`);
+  console.log("weather", data[0].weather[0].main);
 }

@@ -24,7 +24,6 @@ function byName(cityName, stateCode, countryCode) {
       return res.json();
     })
     .then(function (data) {
-      console.log(data[0]);
       namedCity = data[0].name;
       const lat = data[0].lat;
       const lon = data[0].lon;
@@ -39,7 +38,6 @@ function getUrl(lat, lon, key) {
       return res.json();
     })
     .then(function (data) {
-      console.log(data);
       dt_txt = data.list[0].dt_txt.slice(0, 10);
       addToMainDiv(data.list);
       fiveDays(data.list);
@@ -93,7 +91,6 @@ function addToMainDiv(data) {
   info.append(`<li class='temp'>Temperture: ${temp}</li>`);
   info.append(`<li class='wind'>Wind: ${windSpd}MPH</li>`);
   info.append(`<li class='humid'>Humidity: ${humid}%</li>`);
-  console.log("weather", data[0].weather[0].main);
 }
 
 function fiveDays(data) {

@@ -2,13 +2,13 @@ const searchBtn = $(".search");
 const history = $(".history");
 const historyItem = $(".historyItem");
 const currentCity = $(".currentCity");
+const cardList = $(".cardList");
+let card;
 let hero;
 let currCity;
 let namedCity;
 let info;
-// let dt_txt = null
 const apikey = "c7edca2b5da386146c92e6e9f3694e5f";
-// let zip;
 let countryCode;
 
 // const citySearch = $(".citySearcher");
@@ -33,32 +33,18 @@ function byName(cityName, stateCode, countryCode) {
 }
 
 function getUrl(lat, lon, key) {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apikey}&units=imperial`;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apikey}`;
   fetch(apiUrl)
     .then(function (res) {
       return res.json();
     })
     .then(function (data) {
-      // console.log(data.city.name);
-      // console.log(data.list[0].main.temp);
-      console.log(data.list[0]);
+      console.log(data);
       dt_txt = data.list[0].dt_txt.slice(0, 10);
       addToMainDiv(data.list);
+      fiveDays(data.list);
     });
 }
-
-// function coordByZip(zip, countryCode, key) {
-//   const findCord = `http://api.openweathermap.org/geo/1.0/zip?zip=${zip},${countryCode}&appid=${apikey}`;
-//   fetch(findCord)
-//     .then(function (res) {
-//       return res.json();
-//     })
-//     .then(function (data) {
-//       lat = data.lat;
-//       lon = data.lon;
-//       getUrl(lat, lon, key);
-//     });
-// }
 
 $(function addToCityList() {
   const cityHistory = JSON.parse(localStorage.getItem("prevCity"));
@@ -108,4 +94,27 @@ function addToMainDiv(data) {
   info.append(`<li class='wind'>Wind: ${windSpd}MPH</li>`);
   info.append(`<li class='humid'>Humidity: ${humid}%</li>`);
   console.log("weather", data[0].weather[0].main);
+}
+
+function fiveDays(data) {
+  let count = 0;
+  for (let i = 0; i < data.length; i += 8) {
+    $(cardList.append(`<div class='card rounded'>${data[i].dt_txt.slice(0,10)}</div>`));
+    card = $(".card");
+    if (i % count === 0) {
+    }
+
+    count++;
+  }
+  for (let i = 0; i <= card.length - 1; i++) {
+    $(
+      card[i]
+        .appendChild(document.createElement("ul"))
+        .classList.add(`dailyInfo${i}`)
+    );
+    const dailyInfo = $(`.dailyInfo${i}`);
+    $(dailyInfo.append(`<li>Temperture: ${data[i].main.temp}</li>`));
+    $(dailyInfo.append(`<li>Wind: ${data[i].wind.speed}MPH</li>`));
+    $(dailyInfo.append(`<li>Humidity: ${data[i].main.humidity}%</li>`));
+  }
 }

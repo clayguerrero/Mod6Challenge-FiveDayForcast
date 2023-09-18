@@ -1,5 +1,11 @@
 # Mod6Challenge-FiveDayForcast
 
+# Description
+## This is a weather app. By entering a city name, state code, and the country code you can get the current weather and weather for the next 5 days.
+## Once you've searched for a city it's entered into the localStorage and a button is created so you can access it again easily. This feature is great for compairing weather in multiple locations.
+
+# Screenshots
+
 
 
 # External Sources

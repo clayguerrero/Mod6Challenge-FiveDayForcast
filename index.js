@@ -14,6 +14,7 @@ let dailyInfo;
 let nextFive;
 const apikey = "c7edca2b5da386146c92e6e9f3694e5f";
 let countryCode;
+const historyButton = document.querySelectorAll("h4");
 
 // const citySearch = $(".citySearcher");
 
@@ -73,7 +74,7 @@ function lastTen() {
   if (localStorage.prevCity) {
     const prevCityList = JSON.parse(localStorage.prevCity);
     prevCityList.forEach((city) => {
-      history.append("<li><button class='historyItem'><h4></h4></button></li>");
+      history.append(`<li><button class='historyItem'><h4></h4></button></li>`);
       history.children().last().children().children().text(city);
       if (history.children().length > 10) {
         history.children().children().last().remove();
@@ -84,7 +85,6 @@ function lastTen() {
 
 function addToMainDiv(data) {
   let weather = data[0].weather[0].main;
-  // console.log("main", weather);
   currentCity.append($("<div class='hero rounded'></div>"));
   hero = currentCity.children();
   hero.append(`<h3 class='currCityName'>${namedCity} ${dt_txt}</h3>`);
@@ -121,16 +121,12 @@ function fiveDays(data) {
       .appendChild(document.createElement("div"))
       .classList.add(`daysWeather${i}`);
     dailyInfo = $(`.dailyInfo${i}`);
-    // console.log(fiveDaysArray[i].dt_txt)
-    // console.log(fiveDaysArray[i].weather[0].main)
     const fiveWeather = fiveDaysArray[i].weather[0].main;
-
     $(dailyInfo.append(`<li>Temperture: ${fiveDaysArray[i].main.temp}</li>`));
     $(dailyInfo.append(`<li>Wind: ${fiveDaysArray[i].wind.speed}MPH</li>`));
     $(
       dailyInfo.append(`<li>Humidity: ${fiveDaysArray[i].main.humidity}%</li>`)
     );
-    // console.log(fiveWeather)
     setDaysWeather(fiveWeather, i);
   }
 }
@@ -150,13 +146,10 @@ function determineWeather(weather) {
 }
 
 function setDaysWeather(weather, i) {
-  // console.log(i)
   weatherCont = $(`.daysWeather${i}`);
-  console.log(weatherCont)
-  console.log(weather);
   if (weather.includes("loud")) {
     weatherCont.append(`<span class="material-symbols-outlined">cloud</span>`);
-  } else if (weather.includes("lear") || (weather.includes('sun'))) {
+  } else if (weather.includes("lear") || weather.includes("sun")) {
     weatherCont.append(`<span class="material-symbols-outlined">sunny</span>`);
   } else if (weather.includes("ain")) {
     weatherCont.append(`<span class="material-symbols-outlined">rainy</span>`);
@@ -167,3 +160,12 @@ function setDaysWeather(weather, i) {
   }
 }
 
+$(document).on("click", "button.historyItem", function (e) {
+  console.log($(this).text());
+  const reDoCity = $(this).text();
+  e.preventDefault();
+  dummyCity.unshift(reDoCity);
+  localStorage.setItem("prevCity", JSON.stringify(dummyCity));
+  location.reload();
+  byName(reDoCity);
+});

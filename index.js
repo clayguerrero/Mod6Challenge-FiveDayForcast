@@ -68,7 +68,6 @@ $(function addToCityList() {
   const stateCode = $(dummyCity).first()[0].split(",")[1];
   const countryCode = $(dummyCity).first()[0].split(",")[2];
   byName(cityName, stateCode, countryCode);
-  // localStorage.clear()
 });
 function lastTen() {
   if (localStorage.prevCity) {
@@ -161,7 +160,6 @@ function setDaysWeather(weather, i) {
 }
 
 $(document).on("click", "button.historyItem", function (e) {
-  console.log($(this).text());
   const reDoCity = $(this).text();
   e.preventDefault();
   dummyCity.unshift(reDoCity);

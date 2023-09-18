@@ -8,6 +8,10 @@ let hero;
 let currCity;
 let namedCity;
 let info;
+let weather;
+let fiveDaysArray = [];
+let dailyInfo;
+let nextFive;
 const apikey = "c7edca2b5da386146c92e6e9f3694e5f";
 let countryCode;
 
@@ -79,6 +83,8 @@ function lastTen() {
 }
 
 function addToMainDiv(data) {
+  let weather = data[0].weather[0].main;
+  // console.log("main", weather);
   currentCity.append($("<div class='hero rounded'></div>"));
   hero = currentCity.children();
   hero.append(`<h3 class='currCityName'>${namedCity} ${dt_txt}</h3>`);
@@ -91,27 +97,73 @@ function addToMainDiv(data) {
   info.append(`<li class='temp'>Temperture: ${temp}</li>`);
   info.append(`<li class='wind'>Wind: ${windSpd}MPH</li>`);
   info.append(`<li class='humid'>Humidity: ${humid}%</li>`);
+  $(`<div class='weather'></div>`).insertAfter(".currCityName");
+  determineWeather(weather);
 }
 
 function fiveDays(data) {
-  let count = 0;
   for (let i = 0; i < data.length; i += 8) {
-    $(cardList.append(`<div class='card rounded'>${data[i].dt_txt.slice(0,10)}</div>`));
+    fiveDaysArray.push(data[i]);
+    $(
+      cardList.append(
+        `<div class='card rounded'>${data[i].dt_txt.slice(0, 10)}</div>`
+      )
+    );
     card = $(".card");
-    if (i % count === 0) {
-    }
-
-    count++;
   }
-  for (let i = 0; i <= card.length - 1; i++) {
+  for (let i = 0; i <= 4; i++) {
     $(
       card[i]
         .appendChild(document.createElement("ul"))
         .classList.add(`dailyInfo${i}`)
     );
-    const dailyInfo = $(`.dailyInfo${i}`);
-    $(dailyInfo.append(`<li>Temperture: ${data[i].main.temp}</li>`));
-    $(dailyInfo.append(`<li>Wind: ${data[i].wind.speed}MPH</li>`));
-    $(dailyInfo.append(`<li>Humidity: ${data[i].main.humidity}%</li>`));
+    card[i]
+      .appendChild(document.createElement("div"))
+      .classList.add(`daysWeather${i}`);
+    dailyInfo = $(`.dailyInfo${i}`);
+    // console.log(fiveDaysArray[i].dt_txt)
+    // console.log(fiveDaysArray[i].weather[0].main)
+    const fiveWeather = fiveDaysArray[i].weather[0].main;
+
+    $(dailyInfo.append(`<li>Temperture: ${fiveDaysArray[i].main.temp}</li>`));
+    $(dailyInfo.append(`<li>Wind: ${fiveDaysArray[i].wind.speed}MPH</li>`));
+    $(
+      dailyInfo.append(`<li>Humidity: ${fiveDaysArray[i].main.humidity}%</li>`)
+    );
+    // console.log(fiveWeather)
+    setDaysWeather(fiveWeather, i);
   }
 }
+function determineWeather(weather) {
+  weatherCont = $(".weather");
+  if (weather.includes("loud")) {
+    weatherCont.append(`<span class="material-symbols-outlined">cloud</span>`);
+  } else if (weather.includes("sun" || "lear")) {
+    weatherCont.append(`<span class="material-symbols-outlined">sunny</span>`);
+  } else if (weather.includes("ain")) {
+    weatherCont.append(`<span class="material-symbols-outlined">rainy</span>`);
+  } else if (weather.includes("now")) {
+    weatherCont.append(
+      `<span class="material-symbols-outlined">ac_unit</span>`
+    );
+  }
+}
+
+function setDaysWeather(weather, i) {
+  // console.log(i)
+  weatherCont = $(`.daysWeather${i}`);
+  console.log(weatherCont)
+  console.log(weather);
+  if (weather.includes("loud")) {
+    weatherCont.append(`<span class="material-symbols-outlined">cloud</span>`);
+  } else if (weather.includes("lear") || (weather.includes('sun'))) {
+    weatherCont.append(`<span class="material-symbols-outlined">sunny</span>`);
+  } else if (weather.includes("ain")) {
+    weatherCont.append(`<span class="material-symbols-outlined">rainy</span>`);
+  } else if (weather.includes("now")) {
+    weatherCont.append(
+      `<span class="material-symbols-outlined">ac_unit</span>`
+    );
+  }
+}
+

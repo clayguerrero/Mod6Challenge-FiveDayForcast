@@ -5,7 +5,8 @@
 ## Once you've searched for a city it's entered into the localStorage and a button is created so you can access it again easily. This feature is great for compairing weather in multiple locations.
 
 # Screenshots
-
+[!OnLoad](./Images/startingPage.PNG)
+[!FirstSearch](./Images/firstSearch.PNG)
 
 
 # External Sources

@@ -23,7 +23,7 @@ const historyButton = document.querySelectorAll("h4");
 let dummyCity = [];
 
 function byName(cityName, stateCode, countryCode) {
-  const nameURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${apikey}`;
+  const nameURL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${apikey}`;
   fetch(nameURL)
     .then(function (res) {
       return res.json();
